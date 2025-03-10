@@ -7,8 +7,6 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Allows manual triggering
-  
 
 jobs:
   build:
@@ -57,7 +55,6 @@ jobs:
           npm test
 
   deploy:
-    needs: test
     runs-on: ubuntu-latest
 
     steps:

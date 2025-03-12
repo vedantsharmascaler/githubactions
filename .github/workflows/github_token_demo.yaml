@@ -1,14 +1,13 @@
-name: GitHub Token Example
+name: Create GitHub Issue
 
 on: push
 
 jobs:
-  test-job:
+  create-issue:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write  # Grant permission to create issues
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
       - name: Create an issue using GITHUB_TOKEN
         run: |
           curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \

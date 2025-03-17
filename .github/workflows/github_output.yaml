@@ -1,5 +1,4 @@
 name: Example with Outputs
-
 on:
   push:
 

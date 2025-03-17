@@ -1,18 +1,21 @@
-name: GITHUB_OUTPUT Example
+name: Example with Outputs
 
-on: workflow_dispatch  # Allows manual triggering from GitHub UI
+on:
+  push:
 
 jobs:
-  example-job:
+  job1:
     runs-on: ubuntu-latest
+    outputs:
+      output: ${{ steps.generate.outputs.result }}
     steps:
-      - name: Set an output variable
-        id: set-message
-        run: echo "greeting=Hello, World!" >> $GITHUB_OUTPUT
+      - name: Generate Output
+        id: generate
+        run: echo "result=success" >> $GITHUB_OUTPUT
 
-      - name: Use the output variable in another step
-        run: echo "The greeting message is: ${{ steps.set-message.outputs.greeting }}"
-
-      - name: Conditional Execution Based on Output
-        if: ${{ steps.set-message.outputs.greeting == 'Hello, World!' }}
-        run: echo "The output variable matches the expected value!"
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - name: Access Output
+        run: echo "The output from job1 is ${{ needs.job1.outputs.output }}"

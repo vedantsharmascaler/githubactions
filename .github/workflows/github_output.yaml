@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Set an output variable
         id: set-message
-        run: echo "greeting=Hello, World!" >> $GITHUB_OUTPUT
+        run: echo "greeting=Hello, World!" >> "$GITHUB_OUTPUT"
 
       - name: Use the output variable in another step
         run: echo "The greeting message is: ${{ steps.set-message.outputs.greeting }}"

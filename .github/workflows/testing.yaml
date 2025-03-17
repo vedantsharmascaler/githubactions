@@ -1,5 +1,4 @@
 name: Advanced Event Workflow
-
 on:
   push:
     branches:

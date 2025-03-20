@@ -1,0 +1,40 @@
+name: Service demo with PostgreSQL
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd="pg_isready -U testuser"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL Client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Wait for PostgreSQL to be Ready
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          sleep 10
+
+      - name: Run Database Tests
+        run: |
+          echo "Connecting to PostgreSQL and Running Tests..."
+          PGPASSWORD=testpass psql -h localhost -U testuser -d testdb -c "CREATE TABLE users (id SERIAL PRIMARY KEY, name TEXT);"
+          PGPASSWORD=testpass psql -h localhost -U testuser -d testdb -c "INSERT INTO users (name) VALUES ('Alice'), ('Bob');"
+          PGPASSWORD=testpass psql -h localhost -U testuser -d testdb -c "SELECT * FROM users;"

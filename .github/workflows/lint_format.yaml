@@ -2,9 +2,9 @@ name: Lint and Format with Ruff
 
 on:
   push:
-
+    branches: [ main ]
   pull_request:
-  
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -23,15 +23,15 @@ jobs:
       - name: Install Ruff
         run: pip install ruff
 
-      - name: Run Ruff Linter
-        run: ruff check .  # Check for linting errors
+      - name: Run Ruff Formatter (Auto-Fix)
+        run: ruff format .  # Fix formatting issues
 
-      - name: Run Ruff Formatter
-        run: ruff format .  # Auto-fix code styling issues
+      - name: Run Ruff Linter (Auto-Fix)
+        run: ruff check . --fix  # Fix linting issues automatically
 
-      - name: Fail if Linting Issues Exist
+      - name: Run Ruff Linter (Fail if Issues Remain)
         run: |
-          if ! ruff check --exit-zero .; then
-            echo "Linting errors found! Please fix them."
+          if ! ruff check .; then
+            echo "Linting errors still exist! Please fix them."
             exit 1
           fi

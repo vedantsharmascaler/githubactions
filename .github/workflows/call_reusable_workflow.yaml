@@ -3,13 +3,17 @@ name: Call Reusable Workflow
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        description: 'Environment to build and test'
+      runner:
+        description: "Runner to execute the workflow"
         required: true
-        type: string
+        type: choice
+        options:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
 
 jobs:
   call-reusable:
     uses: ./.github/workflows/reusable_workflow.yaml
     with:
-      environment: ${{ inputs.environment }}
+      runner: ${{ inputs.runner }}  # Pass the selected runner

@@ -24,14 +24,10 @@ jobs:
         run: pip install ruff
 
       - name: Run Ruff Formatter (Auto-Fix)
-        run: ruff format .  # Fix formatting issues
+        run: ruff format .
 
       - name: Run Ruff Linter (Auto-Fix)
-        run: ruff check . --fix  # Fix linting issues automatically
+        run: ruff check . --fix
 
-      - name: Run Ruff Linter (Fail if Issues Remain)
-        run: |
-          if ! ruff check .; then
-            echo "Linting errors still exist! Please fix them."
-            exit 1
-          fi
+      - name: Print Fixed sample.py
+        run: cat sample.py

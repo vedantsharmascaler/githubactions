@@ -1,0 +1,33 @@
+name: Reusable Build and Test Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Environment to build and test"
+        required: true
+        type: string
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: application
+
+      - name: Run Tests
+        run: npm test
+        working-directory: application
+
+      - name: Build Project
+        run: npm run build
+        working-directory: application

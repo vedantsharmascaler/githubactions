@@ -3,14 +3,14 @@ name: Reusable Build and Test Workflow
 on:
   workflow_call:
     inputs:
-      environment:
-        description: "Environment to build and test"
+      runner:
+        description: "Runner to execute the workflow (ubuntu-latest, windows-latest, macos-latest)"
         required: true
-        type: string
+        type: string  
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.runner }}  # Dynamically select the runner
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
